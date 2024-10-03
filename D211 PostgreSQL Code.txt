@@ -1,0 +1,114 @@
+PostgreSQL Code
+
+Create services Table
+
+-- Table: public.services
+-- DROP TABLE public.services;
+CREATE TABLE public.services
+(
+customer_id character varying COLLATE pg_catalog."default" NOT NULL,
+"InternetService" character varying COLLATE pg_catalog."default",
+"Phone" character varying COLLATE pg_catalog."default",
+"Multiple" character varying COLLATE pg_catalog."default",
+"OnlineSecurity" character varying COLLATE pg_catalog."default",
+"OnlineBackup" character varying COLLATE pg_catalog."default",
+"DeviceProtection" character varying COLLATE pg_catalog."default",
+"TechSupport" character varying COLLATE pg_catalog."default",
+CONSTRAINT services_pkey PRIMARY KEY (customer_id)
+)
+TABLESPACE pg_default;
+ALTER TABLE public.services
+OWNER to postgres;
+------------------------------------------------
+Create customer_churn_services table
+
+-- Table: public.customer_churn_services
+-- DROP TABLE public.customer_churn_services;
+CREATE TABLE public.customer_churn_services
+(
+customer_id text COLLATE pg_catalog."default",
+population integer,
+children integer,
+age integer,
+income numeric,
+marital text COLLATE pg_catalog."default",
+churn text COLLATE pg_catalog."default",
+gender text COLLATE pg_catalog."default",
+tenure numeric,
+monthly_charge numeric,
+location_id integer,
+"Phone" character varying COLLATE pg_catalog."default",
+"Multiple" character varying COLLATE pg_catalog."default"
+)
+TABLESPACE pg_default;
+ALTER TABLE public.customer_churn_services
+OWNER to postgres;
+--------------------------------------------------------
+INNER JOIN service table and customer
+
+SELECT customer.customer_id, population, children, age, income, marital, churn, gender, tenure,
+
+monthly_charge, location_id
+
+FROM customer
+INNER JOIN services
+ON services.customer_id = customer.customer_id
+---------------------------------------------------------
+Create customer_churn_services_loc Table
+
+-- Table: public.customer_churn_services_loc
+-- DROP TABLE public.customer_churn_services_loc;
+CREATE TABLE public.customer_churn_services_loc
+(
+customer_id text COLLATE pg_catalog."default",
+population integer,
+children integer,
+age integer,
+income numeric,
+marital text COLLATE pg_catalog."default",
+churn text COLLATE pg_catalog."default",
+gender text COLLATE pg_catalog."default",
+tenure numeric,
+monthly_charge numeric,
+"Phone" character varying COLLATE pg_catalog."default",
+"Multiple" character varying COLLATE pg_catalog."default",
+state text COLLATE pg_catalog."default"
+)
+TABLESPACE pg_default;
+ALTER TABLE public.customer_churn_services_loc
+OWNER to postgres;
+------------------------------------------------------------------------
+INNER JOIN customer_churn_services_loc table and location table
+
+SELECT customer_id, population, children, age, income, marital, churn, gender, tenure,
+
+monthly_charge, customer_churn_services."Phone",
+customer_churn_services."Multiple", location."state"
+
+FROM customer_churn_services
+INNER JOIN location
+on location.location_id = customer_churn_services.location_id
+---------------------------------------------------------
+Create celltowers Table
+
+-- Table: public.celltowers
+-- DROP TABLE public.celltowers;
+CREATE TABLE public.celltowers
+(
+id integer,
+license character varying COLLATE pg_catalog."default",
+address character varying COLLATE pg_catalog."default",
+
+city character varying COLLATE pg_catalog."default",
+county character varying COLLATE pg_catalog."default",
+state character varying COLLATE pg_catalog."default",
+structure character varying COLLATE pg_catalog."default",
+structure_type character varying COLLATE pg_catalog."default",
+latitude double precision,
+longitude double precision
+)
+TABLESPACE pg_default;
+ALTER TABLE public.celltowers
+OWNER to postgres;
+
+

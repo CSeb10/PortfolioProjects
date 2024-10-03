@@ -1,0 +1,169 @@
+Tableau Code
+
+Data Source Tables INNER JOIN
+
+SELECT "celltowers"."address" AS "address",
+	"celltowers"."city" AS "city",
+	"celltowers"."count" AS "county",
+	"celltowers"."id" AS "id",
+	"celltowers"."latitude" AS "latitude",
+	"celltowers"."license" AS "license",
+	"celltowers"."longitude" AS "longitude",
+	"celltowers"."state" AS "state (celltowers)",
+	"celltowers"."structure" AS "structure",
+	"celltowers"."structure_type" AS "structure_type",
+FROM "public"."customer_churn_services_loc" "customer_churn_services_loc"
+INNER JOIN "public"."celltowers" "celltowers"
+ON "customer_churn_services_loc"."state" = "celltowers"."state"
+
+
+OR
+
+SELECT "customer_churn_services_loc"."Multiple" AS "Multiple",
+	"customer_churn_services_loc"."Phone" AS "Phone",
+	"customer_churn_services_loc"."age" AS "age",
+	"customer_churn_services_loc"."children" AS "children",
+	CAST("customer_churn_services_loc"."churn" AS TEXT) AS "churn"
+	CAST("customer_churn_services_loc"."customer_id" AS TEXT) AS "customer_id"
+	CAST("customer_churn_services_loc"."gender" AS TEXT) AS "gender"
+	"customer_churn_services_loc"."income" AS "income",
+	CAST("customer_churn_services_loc"."marital" AS TEXT) AS "marital",
+	"customer_churn_services_loc"."monthly_charge" AS "monthly_charge",
+	"customer_churn_services_loc"."population" AS "population",
+	CAST("customer_churn_services_loc"."state" AS TEXT) AS "state",
+	"customer_churn_services_loc"."tenure" AS "tenure"
+FROM "public"."celltowers" "celltowers"
+INNER JOIN "public"."customer_churn_services_loc" "customer_churn_services_loc"
+ON "celltowers."state" = "customer_churn_services_loc"."state"
+
+---------------------------------------------------------------------------------------
+Worksheet 1
+
+
+SELECT COUNT(CAST("Custom SQL Query"."churn" AS TEXT)) AS "cnt:churn:ok",
+  CAST("Custom SQL Query"."state" AS TEXT) AS "state"
+FROM (
+  SELECT "customer_churn_services_loc"."Multiple" AS "Multiple",
+    "customer_churn_services_loc"."Phone" AS "Phone",
+    "customer_churn_services_loc"."age" AS "age",
+    "customer_churn_services_loc"."children" AS "children",
+    CAST("customer_churn_services_loc"."churn" AS TEXT) AS "churn",
+    CAST("customer_churn_services_loc"."customer_id" AS TEXT) AS "customer_id",
+    CAST("customer_churn_services_loc"."gender" AS TEXT) AS "gender",
+    "customer_churn_services_loc"."income" AS "income",
+    CAST("customer_churn_services_loc"."marital" AS TEXT) AS "marital",
+    "customer_churn_services_loc"."monthly_charge" AS "monthly_charge",
+    "customer_churn_services_loc"."population" AS "population",
+    CAST("customer_churn_services_loc"."state" AS TEXT) AS "state",
+    "customer_churn_services_loc"."tenure" AS "tenure"
+  FROM "public"."customer_churn_services_loc" "customer_churn_services_loc"
+) "Custom SQL Query"
+GROUP BY 2
+------------------------------------------------------------------------------
+Worksheet 2
+
+SELECT AVG("Custom SQL Query"."age") AS "avg:age:ok",
+  AVG("Custom SQL Query"."children") AS "avg:children:ok",
+  AVG("Custom SQL Query"."income") AS "avg:income:ok",
+  AVG("Custom SQL Query"."monthly_charge") AS "avg:monthly_charge:ok",
+  AVG("Custom SQL Query"."tenure") AS "avg:tenure:ok"
+FROM (
+  SELECT "customer_churn_services_loc"."Multiple" AS "Multiple",
+    "customer_churn_services_loc"."Phone" AS "Phone",
+    "customer_churn_services_loc"."age" AS "age",
+    "customer_churn_services_loc"."children" AS "children",
+    CAST("customer_churn_services_loc"."churn" AS TEXT) AS "churn",
+    CAST("customer_churn_services_loc"."customer_id" AS TEXT) AS "customer_id",
+    CAST("customer_churn_services_loc"."gender" AS TEXT) AS "gender",
+    "customer_churn_services_loc"."income" AS "income",
+    CAST("customer_churn_services_loc"."marital" AS TEXT) AS "marital",
+    "customer_churn_services_loc"."monthly_charge" AS "monthly_charge",
+    "customer_churn_services_loc"."population" AS "population",
+    CAST("customer_churn_services_loc"."state" AS TEXT) AS "state",
+    "customer_churn_services_loc"."tenure" AS "tenure"
+  FROM "public"."customer_churn_services_loc" "customer_churn_services_loc"
+) "Custom SQL Query"
+HAVING (COUNT(1) > 0)
+-----------------------------------------------------------------------------
+Worksheet 4
+
+SELECT SUM(1) AS "cnt:celltowers_10C8883C9B93446C97E2348C4E78E028:ok",
+  SUM((CASE WHEN ("Custom SQL Query1"."license" = 'AT&T') THEN 1 ELSE 0 END)) AS "sum:Calculation_382805974427602950:ok",
+  SUM((CASE WHEN ("Custom SQL Query1"."license" = 'Verizon') THEN 1 ELSE 0 END)) AS "sum:Calculation_382805974427885575:ok"
+FROM (
+  SELECT "celltowers"."address" AS "address",
+    "celltowers"."city" AS "city",
+    "celltowers"."county" AS "county",
+    "celltowers"."id" AS "id",
+    "celltowers"."latitude" AS "latitude",
+    "celltowers"."license" AS "license",
+    "celltowers"."longitude" AS "longitude",
+    "celltowers"."state" AS "state (celltowers)",
+    "celltowers"."structure" AS "structure",
+    "celltowers"."structure_type" AS "structure_type"
+  FROM "public"."celltowers" "celltowers"
+) "Custom SQL Query1"
+HAVING (COUNT(1) > 0)
+-----------------------------------------------------------------------------------------
+Worksheet 5
+
+SELECT COUNT(CAST("Custom SQL Query"."customer_id" AS TEXT)) AS "cnt:customer_id:ok",
+  CAST("Custom SQL Query"."gender" AS TEXT) AS "gender"
+FROM (
+  SELECT "customer_churn_services_loc"."Multiple" AS "Multiple",
+    "customer_churn_services_loc"."Phone" AS "Phone",
+    "customer_churn_services_loc"."age" AS "age",
+    "customer_churn_services_loc"."children" AS "children",
+    CAST("customer_churn_services_loc"."churn" AS TEXT) AS "churn",
+    CAST("customer_churn_services_loc"."customer_id" AS TEXT) AS "customer_id",
+    CAST("customer_churn_services_loc"."gender" AS TEXT) AS "gender",
+    "customer_churn_services_loc"."income" AS "income",
+    CAST("customer_churn_services_loc"."marital" AS TEXT) AS "marital",
+    "customer_churn_services_loc"."monthly_charge" AS "monthly_charge",
+    "customer_churn_services_loc"."population" AS "population",
+    CAST("customer_churn_services_loc"."state" AS TEXT) AS "state",
+    "customer_churn_services_loc"."tenure" AS "tenure"
+  FROM "public"."customer_churn_services_loc" "customer_churn_services_loc"
+) "Custom SQL Query"
+GROUP BY 2
+-----------------------------------------------------------------------------------------
+Worksheet 6
+
+SELECT COUNT("Custom SQL Query1"."structure_type") AS "cnt:structure_type:ok",
+  "Custom SQL Query1"."structure_type" AS "structure_type"
+FROM (
+  SELECT "celltowers"."address" AS "address",
+    "celltowers"."city" AS "city",
+    "celltowers"."county" AS "county",
+    "celltowers"."id" AS "id",
+    "celltowers"."latitude" AS "latitude",
+    "celltowers"."license" AS "license",
+    "celltowers"."longitude" AS "longitude",
+    "celltowers"."state" AS "state (celltowers)",
+    "celltowers"."structure" AS "structure",
+    "celltowers"."structure_type" AS "structure_type"
+  FROM "public"."celltowers" "celltowers"
+) "Custom SQL Query1"
+GROUP BY 2
+-------------------------------------------------------------------------------------------
+Worksheet 8
+
+SELECT CAST("Custom SQL Query"."churn" AS TEXT) AS "churn",
+  COUNT(CAST("Custom SQL Query"."churn" AS TEXT)) AS "cnt:churn:ok"
+FROM (
+  SELECT "customer_churn_services_loc"."Multiple" AS "Multiple",
+    "customer_churn_services_loc"."Phone" AS "Phone",
+    "customer_churn_services_loc"."age" AS "age",
+    "customer_churn_services_loc"."children" AS "children",
+    CAST("customer_churn_services_loc"."churn" AS TEXT) AS "churn",
+    CAST("customer_churn_services_loc"."customer_id" AS TEXT) AS "customer_id",
+    CAST("customer_churn_services_loc"."gender" AS TEXT) AS "gender",
+    "customer_churn_services_loc"."income" AS "income",
+    CAST("customer_churn_services_loc"."marital" AS TEXT) AS "marital",
+    "customer_churn_services_loc"."monthly_charge" AS "monthly_charge",
+    "customer_churn_services_loc"."population" AS "population",
+    CAST("customer_churn_services_loc"."state" AS TEXT) AS "state",
+    "customer_churn_services_loc"."tenure" AS "tenure"
+  FROM "public"."customer_churn_services_loc" "customer_churn_services_loc"
+) "Custom SQL Query"
+GROUP BY 1
